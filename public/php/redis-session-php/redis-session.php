@@ -1,8 +1,10 @@
 <?php
-if(!class_exists('\Predis\Client')){
-  require_once('modules/predis/lib/Predis/Autoloader.php');
-  Predis\Autoloader::register();
-}
+
+require_once('vendor/autoload.php');
+#if(!class_exists('\Predis\Client')){
+#  require_once('modules/predis/lib/Predis/Autoloader.php');
+#  Predis\Autoloader::register();
+#}
 
 function json_decode_array($d){
   return json_decode($d, true);
