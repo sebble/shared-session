@@ -30,7 +30,8 @@ class RedisSession{
 
   static function start($redis_conf = array(), $unpackItems = array()){
     if(!defined('REDIS_SESSION_PREFIX'))
-      define('REDIS_SESSION_PREFIX', 'session:php:');
+      #define('REDIS_SESSION_PREFIX', 'session:php:');
+      define('REDIS_SESSION_PREFIX', 'session:');
     if(!defined('REDIS_SESSION_SERIALIZER'))
       define('REDIS_SESSION_SERIALIZER', 'json_encode');
     if(!defined('REDIS_SESSION_UNSERIALIZER'))

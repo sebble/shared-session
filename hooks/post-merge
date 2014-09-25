@@ -2,6 +2,4 @@
 
 (cd public/php && composer install)
 
-(cd python && WORKON_HOME=. mkvirtualenv venv \
- && pip install flask \
- && pip install redis)
+(cd python && WORKON_HOME=. mkvirtualenv venv && pip install -r requirements.txt)
