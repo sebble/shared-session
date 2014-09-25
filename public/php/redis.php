@@ -1,5 +1,16 @@
 <?php
-
-require '../../vendor/autoload.php';
-
-echo 'success so far';
+// from https://gist.github.com/mscdex/9507b0d8df42e0aec825
+ 
+// from https://github.com/TheDeveloper/redis-session-php
+require('redis-session-php/redis-session.php');
+RedisSession::start();
+ 
+$_SESSION["php"] = "Hello from PHP";
+ 
+// `cookie` is needed by express-session to store information about the session cookie
+if (!isset($_SESSION["cookie"]))
+$_SESSION["cookie"] = array();
+ 
+var_dump($_SESSION);
+ 
+?>
