@@ -65,3 +65,17 @@ class RedisSessionInterface(SessionInterface):
 
 app = Flask(__name__)
 app.session_interface = RedisSessionInterface()
+app.debug = True
+
+
+@app.route('/')
+def index():
+    return json.dumps({});
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return json.dumps({'error':404, 'msg':"Invalid endpoint."});
+
+
+if __name__ == "__main__":
+    app.run()
