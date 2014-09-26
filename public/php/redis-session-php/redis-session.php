@@ -46,6 +46,7 @@ class RedisSession{
       array($obj, "write"),
       array($obj, "destroy"),
       array($obj, "gc"));
+    session_name('session');
     session_start(); // Because we start the session here, any other modifications to the session must be done before this class is started
     return $obj;
   }

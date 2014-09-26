@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 import pickle
 from datetime import timedelta
 from uuid import uuid4
@@ -73,6 +73,15 @@ app.debug = True
 @app.route('/session/python/hello')
 def index():
     return json.dumps({'msg':'Hello, world!'});
+    
+@app.route('/session/python/session')
+def sessionx():
+    session['python'] = "Message from Python"
+    if 'count' in session:
+        session['count'] += 1
+    else:
+        session['count'] = 1
+    return json.dumps(dict([(k,v) for k,v in session.iteritems()]));
 
 @app.errorhandler(404)
 def page_not_found(e):
