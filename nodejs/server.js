@@ -18,7 +18,7 @@ store: new RedisStore({
 prefix: 'session:'
 }),
 // use the default PHP session cookie name
-name: 'PHPSESSID',
+name: 'session',
 secret: 'node.js rules'
 }));
 app.use(function(req, res, next) {
