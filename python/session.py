@@ -5,6 +5,7 @@ from uuid import uuid4
 from redis import Redis
 from werkzeug.datastructures import CallbackDict
 from flask.sessions import SessionInterface, SessionMixin
+import json
 
 
 class RedisSession(CallbackDict, SessionMixin):
@@ -69,9 +70,9 @@ app.session_interface = RedisSessionInterface()
 app.debug = True
 
 
-@app.route('/')
+@app.route('/session/python/hello')
 def index():
-    return json.dumps({});
+    return json.dumps({'msg':'Hello, world!'});
 
 @app.errorhandler(404)
 def page_not_found(e):
