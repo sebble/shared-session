@@ -1,5 +1,19 @@
 #!/bin/bash
 
+## init PHP
 (cd public/php && composer install)
 
-(cd python && virtualenv venv && source venv/bin/activate && pip install --allow-external -r requirements.txt)
+## init Python
+#(cd python && virtualenv venv && source venv/bin/activate && pip install --allow-external -r requirements.txt)
+
+## http://www.pindi.us/blog/automating-pip-and-virtualenv-shell-scripts
+if [ ! -d "python/venv" ]; then
+    virtualenv -q python/venv --no-site-packages
+    echo "Virtualenv created."
+fi
+
+if [ ! -f "python/venv/updated" -o python/requirements.pip -nt python/venv/updated ]; then
+    pip install -r python/requirements.pip -E python/venv
+    touch python/venv/updated
+    echo "Requirements updated."
+fi
