@@ -13,5 +13,5 @@ if [ ! -d "python/venv" ]; then
 fi
 
 if [ ! -f "python/venv/updated" -o python/requirements.pip -nt python/venv/updated ]; then
-    (cd python && source venv/bin/activate && pip install -r python/requirements.pip && touch venv/updated) && echo "Requirements updated."
+    (cd python && source venv/bin/activate && pip install -r requirements.pip && touch venv/updated) && echo "Requirements updated."
 fi
