@@ -20,7 +20,7 @@ class RedisSession(CallbackDict, SessionMixin):
 
 
 class RedisSessionInterface(SessionInterface):
-    serializer = pickle
+    serializer = json
     session_class = RedisSession
 
     def __init__(self, redis=None, prefix='session:'):
