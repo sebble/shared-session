@@ -18,6 +18,7 @@ def gen_sid(sid, secret):
     return 's:%s.%s'%(sid, gen_sig(sid, secret))
 
 def check_sid(sid, secret):
+    if not sid: return False
     sid,sig = re.match('s:([^\.]+)\.(.+)+',sid).groups()
     return sid if gen_sig(sid, secret) == sig else False
 
