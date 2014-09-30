@@ -49,7 +49,7 @@ class RedisSession{
     // SJIM: override session name
     session_name('session');
     // SJIM: create signed session_id
-    session_id((session_id()=='')?gen_sid(uniqid().uniqid()):session_id());
+    session_id((!isset($_COOKIE['session']))?gen_sid(uniqid().uniqid()):decode_flask_cookie($_COOKIE['session']));
     session_start(); // Because we start the session here, any other modifications to the session must be done before this class is started
     return $obj;
   }
@@ -169,6 +169,13 @@ function gen_sid($sid, $secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc') {
 function check_sid($sid, $secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc') {
   preg_match('!s:([^\.]+)\.(.+)+!', $sid, $m);
   return (gen_sig($m[1],$secret)==$m[2])?$m[1]:false;
+}
+
+function decode_flask_cookie($val) {
+  if ($val[0] == '"')
+    return substr($val,1,-1);
+  else
+    return $val;
 }
 
 define('REDIS_SESSION_ID_MUTATOR', 'check_sid');
