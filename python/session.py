@@ -9,16 +9,17 @@ import json
 
 ## signed sessions to match express.js
 #re.sub('=+$','',base64.b64encode(hmac.new(key,msg,hashlib.sha256).digest()))
-import re, base64, hmac, hashlib
+import re, base64, hmac, hashlib, urllib
 
 def gen_sig(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
     return re.sub('=+$','',base64.b64encode(hmac.new(secret,sid,hashlib.sha256).digest()))
 
 def gen_sid(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
-    return 's:%s.%s'%(sid, gen_sig(sid, secret))
+    return urllib.quote('s:%s.%s'%(sid, gen_sig(sid, secret)))
 
 def check_sid(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
     if not sid: return False
+    sid = urllib.unquote(sid)
     m = re.match('s:([^\.]+)\.(.+)+',sid)
     if not m: return False
     sid,sig = m.groups()
