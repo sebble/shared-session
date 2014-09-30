@@ -1,0 +1,12 @@
+{
+  "version": "0.0.0",
+  "private": true,
+  "name": "resviz-session",
+  "description": "NodeJS shared Redis session",
+  "dependencies": {
+    "express": "*",
+    "express-session": "*",
+    "cookie-parser": "*",
+    "connect-redis": "*"
+  }
+}
