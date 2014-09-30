@@ -19,7 +19,9 @@ def gen_sid(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
 
 def check_sid(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
     if not sid: return False
-    sid,sig = re.match('s:([^\.]+)\.(.+)+',sid).groups()
+    m = re.match('s:([^\.]+)\.(.+)+',sid)
+    if not m: return False
+    sid,sig = m.groups()
     return sid if gen_sig(sid, secret) == sig else False
 
 class RedisSession(CallbackDict, SessionMixin):
