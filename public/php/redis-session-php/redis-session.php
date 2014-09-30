@@ -46,7 +46,10 @@ class RedisSession{
       array($obj, "write"),
       array($obj, "destroy"),
       array($obj, "gc"));
+    // SJIM: override session name
     session_name('session');
+    // SJIM: create signed session_id
+    $sid = (session_id()=='')?gen_sid(uniqid().uniqid(),'qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):session_id();
     session_start(); // Because we start the session here, any other modifications to the session must be done before this class is started
     return $obj;
   }
@@ -144,5 +147,30 @@ class RedisSession{
 
 // the following prevents unexpected effects when using objects as save handlers
 register_shutdown_function('session_write_close');
+
+## signed sessions to match express.js
+#re.sub('=+$','',base64.b64encode(hmac.new(key,msg,hashlib.sha256).digest()))
+#def gen_sig(sid, secret):
+#    return re.sub('=+$','',base64.b64encode(hmac.new(secret,sid,hashlib.sha256).digest()))
+#def gen_sid(sid, secret):
+#    return 's:%s.%s'%(sid, gen_sig(sid, secret))
+#def check_sid(sid, secret):
+#    sid,sig = re.match('s:([^\.]+)\.(.+)+',sid).groups()
+#    return sid if gen_sig(sid, secret) == sig else False
+
+function gen_sig($sid, $secret) {
+  return preg_replace('!=+$!','',base64_encode(hash_hmac('sha256',$sid,$secret,true)));
+}
+
+function gen_sid($sid, $secret) {
+  return 's:'.$sid.'.'.gen_sig($sid, $secret);
+}
+
+function check_sid($sid, $secret) {
+  @preg_match('!s:([^\.]+)\.(.+)+!', $sid, $m);
+  return (gen_sig($m[1],$secret)==$m[2])?$m[1]:false;
+}
+
+define('REDIS_SESSION_ID_MUTATOR', 'check_sid');
 
 ?>

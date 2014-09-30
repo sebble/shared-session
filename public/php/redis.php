@@ -11,7 +11,8 @@ $_SESSION["php_count"] += 1;
 // `cookie` is needed by express-session to store information about the session cookie
 //if (!isset($_SESSION["cookie"]))
 //$_SESSION["cookie"] = array('httpOnly'=>false);
- 
-json_encode($_SESSION);
+
+header('Content-type: application/json');
+echo json_encode($_SESSION);
  
 ?>

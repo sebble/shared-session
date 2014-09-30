@@ -7,6 +7,19 @@ from werkzeug.datastructures import CallbackDict
 from flask.sessions import SessionInterface, SessionMixin
 import json
 
+## signed sessions to match express.js
+#re.sub('=+$','',base64.b64encode(hmac.new(key,msg,hashlib.sha256).digest()))
+import re, base64, hmac, hashlib
+
+def gen_sig(sid, secret):
+    return re.sub('=+$','',base64.b64encode(hmac.new(secret,sid,hashlib.sha256).digest()))
+
+def gen_sid(sid, secret):
+    return 's:%s.%s'%(sid, gen_sig(sid, secret))
+
+def check_sid(sid, secret):
+    sid,sig = re.match('s:([^\.]+)\.(.+)+',sid).groups()
+    return sid if gen_sig(sid, secret) == sig else False
 
 class RedisSession(CallbackDict, SessionMixin):
 
@@ -23,11 +36,12 @@ class RedisSessionInterface(SessionInterface):
     serializer = json
     session_class = RedisSession
 
-    def __init__(self, redis=None, prefix='session:'):
+    def __init__(self, redis=None, prefix='session:', secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
         if redis is None:
             redis = Redis()
         self.redis = redis
         self.prefix = prefix
+        self.secret = secret
 
     def generate_sid(self):
         return str(uuid4())
@@ -41,6 +55,7 @@ class RedisSessionInterface(SessionInterface):
         sid = request.cookies.get(app.session_cookie_name)
         if not sid:
             sid = self.generate_sid()
+            sid = check_sid(sid, self.secret)
             return self.session_class(sid=sid, new=True)
         val = self.redis.get(self.prefix + sid)
         if val is not None:
@@ -61,8 +76,8 @@ class RedisSessionInterface(SessionInterface):
         val = self.serializer.dumps(dict(session))
         self.redis.setex(self.prefix + session.sid, val,
                          int(redis_exp.total_seconds()))
-        response.set_cookie(app.session_cookie_name, session.sid,
-                            expires=cookie_exp, httponly=True,
+        response.set_cookie(app.session_cookie_name, gen_sid(session.sid),
+                            expires=cookie_exp, httponly=False,
                             domain=domain)
 
 app = Flask(__name__)
