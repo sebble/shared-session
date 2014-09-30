@@ -11,13 +11,13 @@ import json
 #re.sub('=+$','',base64.b64encode(hmac.new(key,msg,hashlib.sha256).digest()))
 import re, base64, hmac, hashlib
 
-def gen_sig(sid, secret):
+def gen_sig(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
     return re.sub('=+$','',base64.b64encode(hmac.new(secret,sid,hashlib.sha256).digest()))
 
-def gen_sid(sid, secret):
+def gen_sid(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
     return 's:%s.%s'%(sid, gen_sig(sid, secret))
 
-def check_sid(sid, secret):
+def check_sid(sid, secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):
     if not sid: return False
     sid,sig = re.match('s:([^\.]+)\.(.+)+',sid).groups()
     return sid if gen_sig(sid, secret) == sig else False
