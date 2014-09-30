@@ -49,7 +49,7 @@ class RedisSession{
     // SJIM: override session name
     session_name('session');
     // SJIM: create signed session_id
-    $sid = (session_id()=='')?gen_sid(uniqid().uniqid(),'qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc'):session_id();
+    $sid = (session_id()=='')?gen_sid(uniqid().uniqid()):session_id();
     session_start(); // Because we start the session here, any other modifications to the session must be done before this class is started
     return $obj;
   }
@@ -158,15 +158,15 @@ register_shutdown_function('session_write_close');
 #    sid,sig = re.match('s:([^\.]+)\.(.+)+',sid).groups()
 #    return sid if gen_sig(sid, secret) == sig else False
 
-function gen_sig($sid, $secret) {
+function gen_sig($sid, $secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc') {
   return preg_replace('!=+$!','',base64_encode(hash_hmac('sha256',$sid,$secret,true)));
 }
 
-function gen_sid($sid, $secret) {
+function gen_sid($sid, $secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc') {
   return 's:'.$sid.'.'.gen_sig($sid, $secret);
 }
 
-function check_sid($sid, $secret) {
+function check_sid($sid, $secret='qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc') {
   @preg_match('!s:([^\.]+)\.(.+)+!', $sid, $m);
   return (gen_sig($m[1],$secret)==$m[2])?$m[1]:false;
 }
