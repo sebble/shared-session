@@ -49,10 +49,7 @@ class RedisSession{
     // SJIM: override session name
     session_name('session');
     // SJIM: create signed session_id
-    var_dump(session_id());
-    $sid = (session_id()=='')?gen_sid(uniqid().uniqid()):session_id();
-    session_id($sid);
-    var_dump(session_id());
+    session_id((session_id()=='')?gen_sid(uniqid().uniqid()):session_id());
     session_start(); // Because we start the session here, any other modifications to the session must be done before this class is started
     return $obj;
   }
