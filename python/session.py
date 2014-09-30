@@ -77,7 +77,7 @@ def index():
 @app.route('/session/python/session')
 def sessionx():
     session['python'] = "Message from Python"
-    if 'count' in session:
+    if 'py_count' in session:
         session['py_count'] += 1
     else:
         session['py_count'] = 1
