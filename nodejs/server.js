@@ -6,9 +6,9 @@ RedisStore = require('connect-redis')(session);
  
 app.use(express.static(__dirname + '/static'));
 app.use(function(req, res, next) {
-if (req.url.indexOf('favicon') > -1)
-return res.send(404);
-next();
+    if (req.url.indexOf('favicon') > -1)
+    return res.send(404);
+    next();
 });
 app.use(cookieParser());
 app.use(session({
@@ -21,8 +21,9 @@ app.use(session({
     resave: true
 }));
 app.use(function(req, res, next) {
-req.session.nodejs = 'Hello from node.js!';
-res.send(JSON.stringify(req.session, null, ' '));
+    req.session.nodejs = 'Hello from node.js!';
+    req.session.js_count += 1;
+    res.send(JSON.stringify(req.session, null, ' '));
 });
  
 app.listen(8080);

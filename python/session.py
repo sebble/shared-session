@@ -78,9 +78,9 @@ def index():
 def sessionx():
     session['python'] = "Message from Python"
     if 'count' in session:
-        session['count'] += 1
+        session['py_count'] += 1
     else:
-        session['count'] = 1
+        session['py_count'] = 1
     return json.dumps(dict([(k,v) for k,v in session.iteritems()]));
 
 @app.errorhandler(404)
