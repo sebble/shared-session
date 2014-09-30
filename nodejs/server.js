@@ -3,6 +3,9 @@ app = express(),
 cookieParser = require('cookie-parser'),
 session = require('express-session'),
 RedisStore = require('connect-redis')(session);
+
+// https://github.com/expressjs/session#cookie-options
+app.set('trust proxy', 1) // trust first proxy
  
 app.use(express.static(__dirname + '/static'));
 app.use(function(req, res, next) {
@@ -18,7 +21,13 @@ app.use(session({
     name: 'session',
     secret: 'qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc', 
     saveUninitialized: true,
-    resave: true
+    resave: true,
+    cookie: {
+        path: '/', // default, allow all dirs
+        httpOnly: false, // needed for Angular, etc.
+        secure: true, // we're using HTTPS
+        maxAge: null // expires on browser close
+    }
 }));
 app.use(function(req, res, next) {
     req.session.nodejs = 'Hello from node.js!';

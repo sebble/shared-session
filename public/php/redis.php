@@ -9,9 +9,9 @@ $_SESSION["php"] = "Hello from PHP";
 $_SESSION["php_count"] += 1;
  
 // `cookie` is needed by express-session to store information about the session cookie
-if (!isset($_SESSION["cookie"]))
-$_SESSION["cookie"] = array();
+//if (!isset($_SESSION["cookie"]))
+//$_SESSION["cookie"] = array('httpOnly'=>false);
  
-var_dump($_SESSION);
+json_encode($_SESSION);
  
 ?>
