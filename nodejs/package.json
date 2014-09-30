@@ -5,8 +5,6 @@
   "description": "NodeJS shared Redis session",
   "dependencies": {
     "express": "*",
-    #"express-session": "*",
-    #"cookie-parser": "*",
     "connect-redis": "*"
   }
 }
