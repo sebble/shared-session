@@ -53,7 +53,7 @@ class RedisSession{
     session_start(); // Because we start the session here, any other modifications to the session must be done before this class is started
     // SJIM: express needs this
     //if (!isset($_SESSION["cookie"])) $_SESSION["cookie"] = array();
-    if (!isset($_SESSION["cookie"])) $_SESSION["cookie"] = array('httpOnly': false);
+    if (!isset($_SESSION["cookie"])) $_SESSION["cookie"] = array('httpOnly'=>false);
     return $obj;
   }
 
