@@ -12,7 +12,7 @@ if [ ! -d "python/venv" ]; then
     echo "Virtualenv created."
 fi
 
-if [ ! -f "python/venv/updated" -o python/requirements.pip -nt python/venv/updated ]; then
+if [ ! -f "python/venv/updated" -o python/requirements.txt -nt python/venv/updated ]; then
     (cd python && source venv/bin/activate && pip install -r requirements.txt && touch venv/updated) && echo "Requirements updated."
 fi
 
