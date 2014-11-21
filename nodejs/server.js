@@ -18,7 +18,7 @@ app.use(session({
     store: new RedisStore({
         prefix: 'session:'
     }),
-    name: 'express',
+    name: 'session',
     secret: 'qSFgQ4PIA90uodyDA9DUhXaqK4gH2kEc', 
     saveUninitialized: true,
     resave: true,
