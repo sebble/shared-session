@@ -1,4 +1,4 @@
-# Example Redis Session Servers (JS, Python, PHP)
+# Example Redis Shared Session Servers (JS, Python, PHP)
 
 Sample servers include:
 

@@ -12,12 +12,6 @@ RedisSession::start();
 //if (!isset($_SESSION["cookie"]))
 //$_SESSION["cookie"] = array('httpOnly'=>false);
 
-if (!isset($_SESSION['HTTP_SHIB_EP_EMAILADDRESS'])) {
-  header('Location: https://resviz.ncl.ac.uk/signin?redirect=https://resviz.ncl.ac.uk/session/php/redis.php');
-  exit;
-}
-
-
 header('Content-type: application/json');
 echo json_encode($_SESSION);
- 
+

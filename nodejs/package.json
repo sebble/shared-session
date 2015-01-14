@@ -1,7 +1,7 @@
 {
   "version": "0.0.0",
   "private": true,
-  "name": "resviz-session",
+  "name": "shared-redis-session",
   "description": "NodeJS shared Redis session",
   "dependencies": {
     "express": "^4.9.5",
